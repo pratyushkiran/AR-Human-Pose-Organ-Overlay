@@ -10,22 +10,28 @@ dimensions.aspect = dimensions.width / dimensions.height;
 // Scene
 const scene = new Three.Scene();
 
+// Add an example object (e.g., a rectangle)
+const geometry = new THREE.PlaneGeometry(50, 50);
+const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+const plane = new THREE.Mesh(geometry, material);
+
+
 // Mesh
-const geometry = new Three.BoxGeometry();
-const material = new Three.MeshBasicMaterial({ color: 0x00ff00 });
-const cube = new Three.Mesh(geometry, material);
-scene.add(cube);
+// const geometry = new Three.BoxGeometry();
+// const material = new Three.MeshBasicMaterial({ color: 0x00ff00 });
+// const cube = new Three.Mesh(geometry, material);
+// scene.add(cube);
 
-// Camera
-const camera = new Three.PerspectiveCamera(
-    75,
-    dimensions.aspect,
-    0.1,
-    1000
-);
-// camera.position.y = 2;
-camera.position.z = 3;
-
+// Set up a camera
+const camera = new THREE.OrthographicCamera(
+    0, // left
+    window.innerWidth, // right
+    window.innerHeight, // top
+    0, // bottom
+    0.1, // near
+    1000 // far
+  );
+  camera.position.z = 10;
 
 // Renderer
 const renderer = new Three.WebGLRenderer({ 
@@ -33,11 +39,25 @@ const renderer = new Three.WebGLRenderer({
     alpha: true, 
     canvas: document.getElementById('three') 
 });
+
+// Set up a renderer
+// const renderer = new THREE.WebGLRenderer();
+// renderer.setSize(window.innerWidth, window.innerHeight);
+// document.body.appendChild(renderer.domElement);
+
 renderer.setSize(dimensions.width, dimensions.height);
 renderer.setClearColor(0x000000, 0);
 
+// Adjust scene to match p5.js coordinate system
+scene.scale.y = -1; // Invert the Y-axis
+
+// Position object based on p5.js-style coordinates
+plane.position.set(100, 100, 0); // Top-left corner is (0, 0)
+scene.add(plane);
+
 // Scaling factor to amplify movement
-const SCALING_FACTOR = 5; // Adjust this to match your scene scale
+const SCALING_FACTOR = 1; // Adjust this to match your scene scale
+
 
 // Animate
 function animate() {
@@ -49,18 +69,11 @@ function animate() {
         if (nose) {
             // Update the cube's position, scaling the values for better movement
             cube.position.set(
-                -nose.x * SCALING_FACTOR, 
-                nose.y * SCALING_FACTOR / 2, 
-                // (nose.z || 0) * SCALING_FACTOR 
-                // 0.2,
+                nose.x * SCALING_FACTOR, 
+                nose.y * SCALING_FACTOR, 
                 0
-                // left shoulder plus right shoulder distance 
             );
-
-
-
         }
-
         // Render the scene
         renderer.render(scene, camera);
     }
