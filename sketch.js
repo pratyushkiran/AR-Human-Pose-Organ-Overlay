@@ -6,7 +6,7 @@ var poses = []
 
 function preload() {
   // Load the bodyPose model
-  bodyPose = ml5.bodyPose("BlazePose", () => console.log('BlazePose Model Loaded !'), { flipped:true });
+  bodyPose = ml5.bodyPose("BlazePose", () => console.log('BlazePose Model Loaded !'), { flipped: true });
 }
 
 // Callback function for when the model returns pose data
@@ -21,7 +21,7 @@ function setup() {
   canvas.parent("canvas")
 
 
-  video = createCapture(VIDEO, { flipped:true });
+  video = createCapture(VIDEO, { flipped: true });
   video.size(640, 480);
   video.hide();
 
@@ -31,19 +31,28 @@ function setup() {
 }
 
 function draw() {
-  background(1);
-  image(video, - width / 2, - height / 2, width, height);
+  // background(1); 
+  image(video, -width / 2, -height / 2, width, height);
 
   for (let i = 0; i < poses.length; i++) {
     let pose = poses[i];
     // Iterate through all the keypoints for each pose
-    for (let j = 0; j < pose.keypoints.length; j++) {
-      let keypoint = pose.keypoints[j];
+    for (let j = 0; j < pose.keypoints3D.length; j++) {
+      let keypoint = pose.keypoints3D[j];
       // Only draw a circle if the keypoint's confidence is greater than 0.1
-      if (keypoint.confidence > 0.1) {
+      if (keypoint.confidence > 0.3) {
         fill(0, 255, 0);
-        noStroke();
-        circle(keypoint.x, keypoint.y, 10);
+        // noStroke();
+        strokeWeight(6);
+        const scale = 700;
+        const offsetY = 300;
+        circle(keypoint.x * scale, keypoint.y * scale + offsetY, 5);
+        // point(keypoint.x * scale, keypoint.y * scale + offsetY, keypoint.z * scale);
+        // push();
+        // translate(keypoint.x, keypoint.y, keypoint.z);
+        // rotateZ(angle);
+        // box(0.1);
+        // pop();
       }
     }
     // Draw the skeleton connections
