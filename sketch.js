@@ -1,5 +1,3 @@
-// var keyPoints = ["a"]
-
 let bodyPose;
 let video;
 let connections;
@@ -19,10 +17,10 @@ function gotPoses(results) {
 
 function setup() {
   // noCanvas(); // Disable p5.js default canvas
-  const canvas = createCanvas(640, 480);
+  const canvas = createCanvas(640, 480, WEBGL);
   canvas.parent("canvas")
 
-  
+
   video = createCapture(VIDEO, { flipped:true });
   video.size(640, 480);
   video.hide();
@@ -34,7 +32,7 @@ function setup() {
 
 function draw() {
   background(1);
-  image(video, 0, 0, width, height);
+  image(video, - width / 2, - height / 2, width, height);
 
   for (let i = 0; i < poses.length; i++) {
     let pose = poses[i];
