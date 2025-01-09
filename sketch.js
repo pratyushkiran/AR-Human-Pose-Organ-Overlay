@@ -1,5 +1,3 @@
-// var keyPoints = ["a"]
-
 let bodyPose;
 let video;
 let connections;
@@ -8,7 +6,7 @@ var poses = []
 
 function preload() {
   // Load the bodyPose model
-  bodyPose = ml5.bodyPose("BlazePose", () => console.log('BlazePose Model Loaded !'), { flipped:true });
+  bodyPose = ml5.bodyPose("BlazePose", () => console.log('Mediapipe BlazePose Model Loaded...'), { flipped:true });
 }
 
 // Callback function for when the model returns pose data
@@ -18,10 +16,8 @@ function gotPoses(results) {
 }
 
 function setup() {
-  // noCanvas(); // Disable p5.js default canvas
   const canvas = createCanvas(640, 480);
   canvas.parent("canvas")
-
   
   video = createCapture(VIDEO, { flipped:true });
   video.size(640, 480);
@@ -61,16 +57,17 @@ function draw() {
         line(pointA.x, pointA.y, pointB.x, pointB.y);
       }
     }
-
     window.sharedData = {
       keypointsP5: poses
     }
   }
 }
 
-
 function mousePressed() {
+  console.log("Poses Array 👇");
   console.log(poses);
+  console.log("3D Keypoints 👇");
   console.log(poses[0].keypoints3D[0]);
+  console.log("2D Keypoints 👇");
   console.log(poses[0].keypoints[0]);
 }
