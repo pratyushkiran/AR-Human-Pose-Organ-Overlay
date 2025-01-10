@@ -81,4 +81,4 @@ function animate() {
 setTimeout(() => {
     console.log("ThreeJS Rendering started...");
     animate(); // Start the animation loop
-}, 5000); // 5000 ms = 5 seconds
+}, 7000); // 5000 ms = 5 seconds
